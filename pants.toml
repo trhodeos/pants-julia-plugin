@@ -17,9 +17,7 @@ backend_packages = [
     "pants.backend.shell",
     "pants.backend.shell.lint.shellcheck",
     "pants.backend.shell.lint.shfmt",
-# TODO
-#    "experimental.julia",
-#    "experimental.julia.lint.juliaformatter",
+    "experimental.julia",
 ]
 
 [source]
