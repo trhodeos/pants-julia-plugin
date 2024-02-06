@@ -1,6 +1,11 @@
+from __future__ import annotations
 
+from typing import Iterable
 from pants.core.util_rules.external_tool import ExternalTool
 from pants.engine.platform import Platform
+from pants.engine.unions import UnionRule
+from pants.engine.rules import Rule, collect_rules
+
 
 
 class Julia(ExternalTool):
@@ -8,6 +13,7 @@ class Julia(ExternalTool):
 
     options_scope = "julia"
     name = "Julia"
+    help = "Julia"
     default_version = "v1.10.0"
     default_known_versions = [
         "v1.10.0|macos_arm64 |dc4ca01b1294c02d47b33ef26d489dc288ac68655a03774870c6872b82a9a7d6|146725702",
@@ -38,7 +44,7 @@ class Julia(ExternalTool):
 
     def generate_url(self, plat: Platform) -> str:
         version = self.version[1:]
-        short_version = version.rsplit('.')[0]
+        short_version = version.rsplit('.', 1)[0]
         os = self.os_mapping[plat.value]
         arch = self.arch_mapping[plat.value]
         short_arch = '64' if arch == 'x64' else arch
@@ -46,4 +52,10 @@ class Julia(ExternalTool):
 
     def generate_exe(self, plat: Platform) -> str:
         version = self.version[1:]
-        return f"./julia_{version}/bin/julia"
+        return f"./julia-{version}/bin/julia"
+
+def rules() -> Iterable[Rule | UnionRule]:
+    return (
+        *collect_rules(),
+        *Julia.rules(),  # type: ignore[call-arg]
+    )

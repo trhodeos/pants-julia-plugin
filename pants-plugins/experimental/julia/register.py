@@ -3,7 +3,11 @@ from __future__ import annotations
 from typing import Iterable
 
 from experimental.julia.goals import (
-    tailor
+    tailor,
+    repl,
+)
+from experimental.julia.subsystems import (
+    julia,
 )
 from experimental.julia.target_types import (
     JuliaSourcesGeneratorTarget,
@@ -15,7 +19,7 @@ from pants.engine.unions import UnionRule
 
 
 def rules() -> Iterable[Rule | UnionRule]:
-    return (*tailor.rules(),)
+    return (*tailor.rules(), *repl.rules(), *julia.rules(),)
 
 
 def target_types() -> Iterable[type[Target]]:
