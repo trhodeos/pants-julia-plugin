@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
+
 from pants.core.util_rules.external_tool import ExternalTool
 from pants.engine.platform import Platform
-from pants.engine.unions import UnionRule
 from pants.engine.rules import Rule, collect_rules
-
+from pants.engine.unions import UnionRule
 
 
 class Julia(ExternalTool):
@@ -44,15 +44,16 @@ class Julia(ExternalTool):
 
     def generate_url(self, plat: Platform) -> str:
         version = self.version[1:]
-        short_version = version.rsplit('.', 1)[0]
+        short_version = version.rsplit(".", 1)[0]
         os = self.os_mapping[plat.value]
         arch = self.arch_mapping[plat.value]
-        short_arch = '64' if arch == 'x64' else arch
+        short_arch = "64" if arch == "x64" else arch
         return f"https://julialang-s3.julialang.org/bin/{os}/{arch}/{short_version}/julia-{version}-{os}{short_arch}.tar.gz"
 
     def generate_exe(self, plat: Platform) -> str:
         version = self.version[1:]
         return f"./julia-{version}/bin/julia"
+
 
 def rules() -> Iterable[Rule | UnionRule]:
     return (

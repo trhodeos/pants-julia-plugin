@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable
 
 from experimental.julia.target_types import (
     JULIA_FILE_EXTENSIONS,
@@ -13,12 +13,12 @@ from pants.core.goals.tailor import (
     PutativeTargets,
     PutativeTargetsRequest,
 )
-from pants.util.dirutil import group_by_dir
 from pants.engine.fs import PathGlobs, Paths
 from pants.engine.internals.selectors import Get
 from pants.engine.rules import Rule, collect_rules, rule
 from pants.engine.target import Target
 from pants.engine.unions import UnionRule
+from pants.util.dirutil import group_by_dir
 from pants.util.logging import LogLevel
 
 
